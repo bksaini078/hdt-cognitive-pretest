@@ -5,12 +5,8 @@ export const participantInformation = {
   study: "Consent-First Human Digital Twin Marketplace Design",
   activity: "Cognitive pretest of a proposed expert questionnaire",
   researcher: "Bhupender Kumar Saini",
-  institutionContact: "Fraunhofer IAO, Interaction Design and Technology / [INSTITUTIONAL EMAIL]",
-  ethicsDetermination: "[REFERENCE OR NOT REQUIRED DETERMINATION]",
-  withdrawalProcess: "[WITHDRAWAL AND DELETION PROCESS]",
-  storageAccess: "[DETAILS]",
-  retentionDeletion: "[DETAILS]",
-  dataProtectionContact: "[DETAILS]",
+  institution: "Fraunhofer IAO, Interaction Design and Technology",
+  contactEmail: "bksaini078@gmail.com",
 };
 
 export const scale = [

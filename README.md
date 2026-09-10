@@ -4,19 +4,7 @@ Static, route-personalized web interface for the cognitive pretest of the Consen
 
 ## Current status
 
-This public deployment is a configuration preview, not yet an approved participant instrument. The app intentionally blocks consent and questionnaire entry while institution-specific participant-information fields remain incomplete.
-
-Before participant use, update `participantInformation` in `data.mjs` with approved values for:
-
-- researcher name;
-- institution and contact email;
-- ethics approval reference or formal not-required determination;
-- withdrawal and deletion procedure;
-- storage location and authorized access roles;
-- retention period and deletion method; and
-- data-protection contact or complaint route.
-
-Do not replace these fields with assumptions. Keep any institution-required signed consent record outside this repository.
+The participant-information screen identifies the researcher, institution, and contact email before presenting the consent affirmation. Keep any separately required signed consent record outside this repository.
 
 ## Data behavior
 

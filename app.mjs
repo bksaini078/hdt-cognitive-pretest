@@ -91,7 +91,7 @@ function renderSetup() {
     ${heading("Researcher setup", "Prepare a bounded pretest session", "Assign the verified route and pseudonymous ID before handing the device to the participant.")}
     <section class="setup-panel">
       <div class="notice warning">
-        <p><strong>Preflight gate.</strong> The next screen presents the participant-information sheet and consent affirmation. Complete its institution-specific fields in <code>data.mjs</code> before recruitment.</p>
+        <p>The next screen presents the participant-information sheet and consent affirmation.</p>
         <p>This hosted app does not submit questionnaire responses, record audio or video, or intentionally collect direct identifiers. GitHub may process access metadata, including IP addresses, under its own privacy terms.</p>
       </div>
       <div class="field-grid">
@@ -104,23 +104,22 @@ function renderSetup() {
 }
 
 function participantInformationIsComplete() {
-  return ["researcher", "institutionContact", "ethicsDetermination", "withdrawalProcess", "storageAccess", "retentionDeletion", "dataProtectionContact"]
-    .every((key) => !participantInformation[key].includes("["));
+  return ["researcher", "institution", "contactEmail"]
+    .every((key) => participantInformation[key].trim().length > 0);
 }
 
 function renderParticipantInformation() {
   const configured = participantInformationIsComplete();
   return `
     ${heading("Participant information", "Please read before deciding", "This information applies to the cognitive pretest of the proposed expert questionnaire.")}
-    ${configured ? "" : `<section class="notice warning"><p><strong>Not ready for participant use.</strong> Institution-specific fields remain incomplete. The researcher must update the participant-information values in <code>data.mjs</code> before recruitment.</p></section>`}
     <section class="participant-information" aria-labelledby="participant-information-title">
       <h2 id="participant-information-title">Cognitive Pretest Participant Information and Consent Record</h2>
       <dl class="information-meta">
         <div><dt>Study</dt><dd>${escapeHtml(participantInformation.study)}</dd></div>
         <div><dt>Activity</dt><dd>${escapeHtml(participantInformation.activity)}</dd></div>
         <div><dt>Researcher</dt><dd>${escapeHtml(participantInformation.researcher)}</dd></div>
-        <div><dt>Institution and contact</dt><dd>${escapeHtml(participantInformation.institutionContact)}</dd></div>
-        <div><dt>Ethics or institutional determination</dt><dd>${escapeHtml(participantInformation.ethicsDetermination)}</dd></div>
+        <div><dt>Institution</dt><dd>${escapeHtml(participantInformation.institution)}</dd></div>
+        <div><dt>Email</dt><dd><a href="mailto:${escapeHtml(participantInformation.contactEmail)}">${escapeHtml(participantInformation.contactEmail)}</a></dd></div>
       </dl>
 
       <h2>Why you are being invited</h2>
@@ -138,20 +137,14 @@ function renderParticipantInformation() {
 
       <h2>Voluntary participation</h2>
       <p>Participation is voluntary. You may skip a question, choose <code>OE outside my expertise</code>, pause, or stop without giving a reason. Stopping will not affect any relationship with the researcher or institution.</p>
-      <p><strong>Withdrawal and deletion process:</strong> ${escapeHtml(participantInformation.withdrawalProcess)}</p>
 
       <h2>Information collected and handling</h2>
       <p>The pretest uses the pseudonymous ID <strong>${escapeHtml(state.pretestId)}</strong>. Do not enter your name, employer, client names, confidential project details, or sensitive personal information. The researcher records your verified competence route, questionnaire responses, timing, interruptions, comprehension observations, and revision decisions. Identity and contact information are stored separately from response and issue logs.</p>
       <p>The app does not send questionnaire responses to a study server. GitHub Pages delivers the application files and may process access metadata under <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener noreferrer">GitHub's privacy statement</a>. At the end of the session, the researcher saves the exported response file to an access-controlled study location and clears the browser session.</p>
-      <dl class="information-meta">
-        <div><dt>Storage location and access roles</dt><dd>${escapeHtml(participantInformation.storageAccess)}</dd></div>
-        <div><dt>Retention period and deletion method</dt><dd>${escapeHtml(participantInformation.retentionDeletion)}</dd></div>
-        <div><dt>Intended reporting</dt><dd>Aggregate methodological description and non-identifying examples only</dd></div>
-        <div><dt>Data-protection contact or complaint route</dt><dd>${escapeHtml(participantInformation.dataProtectionContact)}</dd></div>
-      </dl>
+      <p><strong>Intended reporting:</strong> Aggregate methodological description and non-identifying examples only.</p>
 
       <h2>Consent record</h2>
-      <p>By affirming below, you confirm that you have read and understood this information, had an opportunity to ask questions, understand that this is questionnaire pretesting rather than Delphi participation, understand how the information will be handled and how to stop or request deletion, and consent to participate.</p>
+      <p>By affirming below, you confirm that you have read and understood this information, had an opportunity to ask questions, understand that this is questionnaire pretesting rather than Delphi participation, understand how the information will be handled and how to stop participating, and consent to participate.</p>
       <p>No recording is planned. Any later recording would require separate disclosure, approval, and consent.</p>
       <label class="field"><span>Consent date</span><input id="consent-date" type="date" value="${escapeHtml(state.consentDate)}" /></label>
       <label class="check-row"><input id="information-acknowledged" type="checkbox" ${state.informationAcknowledged ? "checked" : ""} ${configured ? "" : "disabled"} /><span>I have read and understood the participant information and had an opportunity to ask questions.</span></label>
