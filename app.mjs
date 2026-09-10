@@ -316,7 +316,7 @@ function renderOpenField(id, label, prompt) {
 }
 
 function navigation() {
-  return `<div class="section-actions"><button class="button secondary" data-nav="back">Back</button><button class="button primary" data-nav="next">Continue</button></div>`;
+  return `<p class="required-note"><strong>Required:</strong> Complete every rating and required text box on this page before continuing. Enter <strong>None</strong> when you have nothing to add.</p><div class="section-actions"><button class="button secondary" data-nav="back">Back</button><button class="button primary" data-nav="next">Continue</button></div>`;
 }
 
 function annotateGlossaryTerms(root) {
@@ -410,8 +410,73 @@ function handleRating(event) {
 }
 
 function navigate(direction) {
+  if (direction > 0 && !validateCurrentStep()) return;
   state.currentStep = Math.max(0, Math.min(steps.length - 1, state.currentStep + direction));
   render();
+}
+
+function validateCurrentStep() {
+  const stepId = steps[state.currentStep].id;
+  const moduleByStep = { eligibility: "EL", requirements: "DR", domains: "D", economics: "EC", overall: "FW" };
+  const module = moduleByStep[stepId];
+  if (!module) return true;
+
+  const issues = [];
+  for (const item of expectedRatingItems().filter((candidate) => candidate.module === module)) {
+    const rating = state.ratings[item.id];
+    if (!rating) {
+      issues.push({ selector: `[data-rating-id="${cssEscape(item.id)}"]`, message: `${item.id} needs a rating` });
+    } else if (["1", "2", "OE"].includes(rating) && !(state.rationales[item.id] ?? "").trim()) {
+      issues.push({ selector: `[data-rationale-id="${cssEscape(item.id)}"]`, message: `${item.id} needs a brief reason` });
+    }
+  }
+
+  if (stepId === "domains") {
+    for (const id of routeConfig().domains) {
+      if (["1", "2"].includes(state.ratings[`${id}.completeness`]) && !(state.openResponses[`${id}.open`] ?? "").trim()) {
+        issues.push({ selector: `[data-open-id="${cssEscape(`${id}.open`)}"]`, message: `${id} needs the missing requirement` });
+      }
+    }
+  }
+
+  const requiredOpenByStep = {
+    eligibility: [{ id: "EL.open", label: "Checklist comment" }],
+    requirements: [{ id: "DR.open", label: "Requirements comment" }],
+    economics: [{ id: "EC.open", label: "Economic assumptions comment" }],
+    overall: [{ id: "F1", label: "Most important revision" }, { id: "F2", label: "Remaining concern" }],
+  };
+  for (const field of requiredOpenByStep[stepId] ?? []) {
+    if (!(state.openResponses[field.id] ?? "").trim()) {
+      issues.push({ selector: `[data-open-id="${cssEscape(field.id)}"]`, message: `${field.label} needs a response` });
+    }
+  }
+
+  document.querySelectorAll(".validation-error").forEach((element) => {
+    element.classList.remove("validation-error");
+    element.removeAttribute("aria-invalid");
+  });
+  document.querySelector("#validation-summary")?.remove();
+  if (!issues.length) return true;
+
+  for (const issue of issues) {
+    const element = document.querySelector(issue.selector);
+    if (!element) continue;
+    const target = element.closest(".rating-block, .field") ?? element;
+    target.classList.add("validation-error");
+    target.setAttribute("aria-invalid", "true");
+  }
+  const summary = document.createElement("div");
+  summary.id = "validation-summary";
+  summary.className = "notice warning validation-summary";
+  summary.tabIndex = -1;
+  summary.setAttribute("role", "alert");
+  summary.innerHTML = `<p><strong>Complete the required answers before continuing.</strong></p><p>${issues.length} response${issues.length === 1 ? " needs" : "s need"} attention. Enter <strong>None</strong> in a required comment box when you have nothing to add.</p>`;
+  document.querySelector(".section-actions")?.before(summary);
+  const first = document.querySelector(issues[0].selector);
+  (first?.matches("textarea, input, select") ? first : first?.querySelector("input, textarea, select"))?.focus({ preventScroll: true });
+  (first?.closest(".rating-block, .field") ?? first)?.scrollIntoView({ behavior: "smooth", block: "center" });
+  showToast(`${issues.length} required response${issues.length === 1 ? " is" : "s are"} incomplete.`);
+  return false;
 }
 
 function expectedRatingItems() {

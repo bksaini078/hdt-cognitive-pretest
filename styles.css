@@ -552,6 +552,25 @@ textarea {
   display: none;
 }
 
+.validation-error {
+  border-color: #b42318;
+  box-shadow: 0 0 0 2px rgb(180 35 24 / 14%);
+}
+
+.validation-summary {
+  margin-top: 24px;
+}
+
+.validation-summary p:last-child {
+  margin-bottom: 0;
+}
+
+.required-note {
+  margin: 24px 0 0;
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+
 .evidence-panel {
   margin: 16px 0 0 62px;
   border-top: 1px solid var(--line);
