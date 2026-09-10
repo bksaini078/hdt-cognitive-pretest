@@ -4,6 +4,7 @@ import {
   economics,
   eligibility,
   eligibilityNotes,
+  glossary,
   participantInformation,
   properties,
   requirements,
@@ -109,6 +110,11 @@ function renderSetup() {
         <p><strong id="route-guide-title">Route guide</strong></p>
         <p>Select the one route assigned by the researcher based on verified expertise.</p>
         <div class="definition-grid">${Object.entries(routes).map(([id, route]) => `<div><strong>Route ${id}: ${escapeHtml(route.label)}</strong><span>${escapeHtml(route.scope)}</span></div>`).join("")}</div>
+      </section>
+      <section class="definition-panel" aria-labelledby="glossary-title">
+        <p><strong id="glossary-title">Plain-language glossary</strong></p>
+        <p>These explanations clarify recurring terms without changing the formal questionnaire statements.</p>
+        <div class="definition-grid">${glossary.map(({ term, definition }) => `<div><strong>${escapeHtml(term)}</strong><span>${escapeHtml(definition)}</span></div>`).join("")}</div>
       </section>
       <label class="check-row"><input id="identity-confirmed" type="checkbox" ${state.identityConfirmed ? "checked" : ""} /><span>I confirm that no participant name, employer, client, or other direct identifier will be entered in this app.</span></label>
     </section>

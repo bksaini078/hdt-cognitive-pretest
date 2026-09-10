@@ -28,6 +28,25 @@ export const properties = {
   plausibility: "An economic proposition is reasonable enough to retain as a scenario pending empirical evidence.",
 };
 
+export const glossary = [
+  { term: "Contributor-backed marketplace", definition: "A marketplace in which real individuals supply or authorize use of their personal data or digital representations for enterprise AI queries, and receive a defined payment or value allocation in return." },
+  { term: "Representation", definition: "The bounded digital twin or AI model derived from or attributed to a specific contributor or contributor group." },
+  { term: "Source relationship", definition: "The relationship in which a contributor's real data, participation, or identity was used to create or train the representation." },
+  { term: "Bounded", definition: "Limited by a stated purpose, scope, data source, time period, or permitted use rather than open-ended." },
+  { term: "Downstream use", definition: "Any later use of contributed data, a representation, or its outputs after the original contribution event." },
+  { term: "Authorization", definition: "A recorded permission specifying which use is allowed, for what purpose, and under what restrictions." },
+  { term: "Query or query class", definition: "A request made to the system, or a defined category of similar permitted requests." },
+  { term: "Attributable use record", definition: "A record that connects a use to its authorization, purpose, buyer or client class, transaction status, and compensation status where applicable." },
+  { term: "Derived artifact", definition: "An output, model, dataset, or other item created from contributed data or a representation." },
+  { term: "Lineage", definition: "The traceable history linking source data, transformations, model versions, and outputs." },
+  { term: "Cohort", definition: "A group of contributors selected because they meet defined characteristics for a study or query." },
+  { term: "Singling out and re-identification", definition: "Singling out means distinguishing one person within an output; re-identification means connecting data or an output back to that person's identity." },
+  { term: "Full-cost model", definition: "A financial model that includes both transaction-level costs and the wider costs of operating the platform." },
+  { term: "Contribution margin", definition: "Revenue remaining after costs that vary directly with a transaction or query." },
+  { term: "Operating result", definition: "Revenue minus the platform's operating costs for the stated period." },
+  { term: "Runway", definition: "The estimated time available before current funds are exhausted under the stated assumptions." },
+];
+
 export const eligibility = {
   EL1: "A real contributor or represented individual has an established source relationship with the representation.",
   EL2: "A bounded representation persists or can be reused beyond the original contribution event.",
