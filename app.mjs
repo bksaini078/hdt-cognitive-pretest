@@ -108,7 +108,7 @@ function heading(kicker, title, description) {
 
 function renderSetup() {
   return `
-    ${heading("Researcher setup", "Prepare a bounded pretest session", "Assign the verified route and pseudonymous ID before the participant begins.")}
+    ${heading("Researcher setup", "Set up the participant's pretest", "Enter a pseudonymous participant ID and select the route assigned by the researcher before the participant begins.")}
     <section class="setup-panel">
       <div class="notice warning">
         <p>The next screen presents the participant-information sheet and consent affirmation.</p>
