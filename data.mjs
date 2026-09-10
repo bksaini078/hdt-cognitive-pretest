@@ -19,7 +19,7 @@ export const scale = [
 ];
 
 export const properties = {
-  relevance: "The condition or requirement belongs in the artifact for its stated purpose.",
+  relevance: "The condition or requirement belongs in the proposed design for its stated purpose.",
   clarity: "Its wording and boundary can be interpreted consistently.",
   implementability: "An organization could translate it into bounded controls and responsibilities.",
   observability: "The stated evidence could support a determination about implementation.",
@@ -30,14 +30,17 @@ export const properties = {
 
 export const glossary = [
   { term: "Contributor-backed marketplace", definition: "A marketplace in which real individuals supply or authorize use of their personal data or digital representations for enterprise AI queries, and receive a defined payment or value allocation in return." },
+  { term: "Eligibility checklist", definition: "Five required conditions, EL1 to EL5, used together to decide whether a proposed service fits this study's definition of a contributor-backed marketplace." },
   { term: "Representation", definition: "The bounded digital twin or AI model derived from or attributed to a specific contributor or contributor group." },
   { term: "Source relationship", definition: "The relationship in which a contributor's real data, participation, or identity was used to create or train the representation." },
   { term: "Bounded", definition: "Limited by a stated purpose, scope, data source, time period, or permitted use rather than open-ended." },
   { term: "Downstream use", definition: "Any later use of contributed data, a representation, or its outputs after the original contribution event." },
   { term: "Authorization", definition: "A recorded permission specifying which use is allowed, for what purpose, and under what restrictions." },
   { term: "Query or query class", definition: "A request made to the system, or a defined category of similar permitted requests." },
+  { term: "Justified client class", definition: "A clearly defined type of buyer that has an approved reason to use the service." },
+  { term: "Transaction", definition: "A recorded exchange in which a buyer accesses a service and payment or another form of value may be allocated." },
   { term: "Attributable use record", definition: "A record that connects a use to its authorization, purpose, buyer or client class, transaction status, and compensation status where applicable." },
-  { term: "Derived artifact", definition: "An output, model, dataset, or other item created from contributed data or a representation." },
+  { term: "Derived artifact", definition: "A new output made from contributed data or a representation, such as a model, dataset, report, or generated response." },
   { term: "Lineage", definition: "The traceable history linking source data, transformations, model versions, and outputs." },
   { term: "Cohort", definition: "A group of contributors selected because they meet defined characteristics for a study or query." },
   { term: "Singling out and re-identification", definition: "Singling out means distinguishing one person within an output; re-identification means connecting data or an output back to that person's identity." },
@@ -45,6 +48,8 @@ export const glossary = [
   { term: "Contribution margin", definition: "Revenue remaining after costs that vary directly with a transaction or query." },
   { term: "Operating result", definition: "Revenue minus the platform's operating costs for the stated period." },
   { term: "Runway", definition: "The estimated time available before current funds are exhausted under the stated assumptions." },
+  { term: "Domain", definition: "A group of related design requirements, such as contributor rights or data lifecycle controls." },
+  { term: "Cognitive pretest", definition: "A test of whether questionnaire instructions and questions are understandable and usable. It is not a Delphi rating round." },
 ];
 
 export const eligibility = {

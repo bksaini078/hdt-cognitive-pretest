@@ -175,14 +175,15 @@ function renderParticipantInformation() {
 function renderEligibility() {
   const route = routeConfig();
   return `
-    ${heading(`Route ${state.route}`, "Marketplace eligibility", "Read each statement. Then answer two questions: Should it be included? Is it easy to understand?")}
+    ${heading(`Route ${state.route}`, "Marketplace eligibility", "Review your assigned parts of the five-condition eligibility checklist.")}
     <section class="notice">
-      <p><strong>What you are reviewing:</strong> The platform is only a design. It is not running yet. These statements form a checklist. The checklist helps decide whether a service is the type of marketplace studied here.</p>
+      <p><strong>What is this checklist?</strong> The full checklist has five conditions, EL1 to EL5. A proposed service must meet all five conditions to fit this study's definition of a contributor-backed marketplace. Your route shows only the conditions assigned to you for review.</p>
+      <p>The platform is only a design. It is not running yet.</p>
       <p><strong>What to do:</strong></p>
       <ol>
         <li>Read each statement and the short note below it.</li>
-        <li>For <strong>Relevance</strong>, ask: “Should this rule be in the checklist?” Choose 1 for no and 5 for yes.</li>
-        <li>For <strong>Clarity</strong>, ask: “Is this rule easy to understand?” Choose 1 for very unclear and 5 for very clear.</li>
+        <li>For <strong>Relevance</strong>, ask: “Should this statement be one of the five required conditions?” Choose 1 for no and 5 for yes.</li>
+        <li>For <strong>Clarity</strong>, ask: “Is this statement easy to understand?” Choose 1 for very unclear and 5 for very clear.</li>
         <li>If you choose 1, 2, or Outside my expertise, write a short reason in the box that appears.</li>
         <li>At the end, tell us if a rule should be added, removed, or made clearer. Enter <strong>None</strong> if you have no suggestion.</li>
       </ol>
@@ -203,9 +204,9 @@ function renderEligibilityCard(id) {
 function renderRequirements() {
   const route = routeConfig();
   return `
-    ${heading(`Route ${state.route}`, "Consent-first requirements", "Rate each assigned requirement as one design unit. Open the evidence reference when judging observability.")}
+    ${heading(`Route ${state.route}`, "Consent-first requirements", "Read each proposed requirement and rate it in four ways.")}
     ${definitionPanel(["relevance", "clarity", "implementability", "observability"])}
-    <section class="notice"><p><strong>OE is a deliberate response:</strong> choose it when the property is outside your expertise. An unanswered item is recorded separately as missing.</p><p>If one element within a compound requirement is unclear, describe that element in the open comment box at the end of this section rather than marking the whole requirement OE.</p></section>
+    <section class="notice"><p><strong>What to do:</strong> Read the requirement, then rate whether it should be included, is easy to understand, can be put into practice, and can be checked using evidence.</p><p>Open <strong>View evidence expected before release</strong> before you rate Observability. This shows the records or tests that could prove the requirement was followed.</p><p>Choose <strong>Outside my expertise</strong> only when you cannot judge that rating. If you choose 1, 2, or Outside my expertise, write a short reason in the box that appears.</p><p>Codes such as <strong>DR1</strong> are only labels.</p></section>
     ${route.requirements.map((id) => renderRequirementCard(id)).join("")}
     ${renderOpenField("DR.open", "Your comments on the requirements", "Tell us about a missing link between rules, a possible harm, or wording that should change. Enter None if you have nothing to report.")}
     ${navigation()}`;
@@ -221,9 +222,9 @@ function renderRequirementCard(id) {
 function renderDomains() {
   const route = routeConfig();
   return `
-    ${heading(`Route ${state.route}`, "Domain completeness", "Judge whether each routed domain covers the material requirements needed at its stated scope.")}
+    ${heading(`Route ${state.route}`, "Are any requirements missing?", "Each domain groups related requirements. Decide whether an important requirement is missing from each group.")}
     ${definitionPanel(["completeness"])}
-    <section class="notice"><p>Each card shows the complete domain. Requirements outside your rating route are context only; do not rate them individually.</p></section>
+    <section class="notice"><p><strong>What to do:</strong> Read the full list in each domain. Choose 1 if important requirements are missing and 5 if the group appears complete.</p><p>Rows marked <strong>Rated</strong> were rated by you earlier. Rows marked <strong>Context only</strong> are shown to help you understand the whole group; do not rate those rows separately.</p><p>Codes such as <strong>D1</strong> are only labels for groups of related requirements.</p></section>
     ${route.domains.map((id) => renderDomainCard(id)).join("")}
     ${navigation()}`;
 }
@@ -242,9 +243,9 @@ function renderDomainCard(id) {
 
 function renderEconomics() {
   return `
-    ${heading("Route E", "Economic scenario review", "Assess whether the propositions should remain as scenarios pending empirical evidence.")}
+    ${heading("Route E", "Economic scenario review", "Decide whether each economic idea is reasonable enough to keep for later testing.")}
     ${definitionPanel(["relevance", "usefulness", "plausibility"])}
-    <section class="notice warning"><p>The model separates transaction contribution margin from platform operating result and reports capacity, continuity assumptions, concentration, acquisition payback, and runway.</p><p>Four of five original scenarios fail the combined threshold test. The one passing scenario shows approximately $431 monthly surplus and fails under every tested adverse-factor combination. These are assumption-driven sensitivity results, not forecasts, observed demand, or viability evidence.</p></section>
+    <section class="notice warning"><p><strong>What to do:</strong> Rate whether each idea is useful, relevant, or reasonable enough to keep as a scenario for future testing. You are not deciding whether the business will succeed.</p><p>The financial model keeps transaction-level results separate from the overall operating result. It also reports capacity, continuity, concentration, acquisition payback, and runway.</p><p>Four of five original scenarios did not meet all tested thresholds. The one that did showed about $431 monthly surplus, but it failed under every tested combination of worse assumptions. These are model results, not forecasts, observed demand, or proof that the marketplace will work.</p></section>
     ${routeConfig().economics.map((id) => renderEconomicCard(id)).join("")}
     ${renderOpenField("EC.open", "Assumptions that need evidence", "Which three assumptions most need real-world evidence before decisions about pricing, recruitment, or investment? If possible, say where the evidence could come from or give a reasonable range. Enter None if you have nothing to report.")}
     ${navigation()}`;
@@ -257,9 +258,9 @@ function renderEconomicCard(id) {
 
 function renderOverall() {
   return `
-    ${heading("Final participant section", "Overall review", "Consider the framework as a whole, then identify the revision that matters most.")}
+    ${heading("Final participant section", "Overall review", "Think about all the sections you reviewed and identify the most important change.")}
     ${definitionPanel(["usefulness"])}
-    <article class="item-card"><div class="item-header"><span class="item-id">FW1</span><p class="item-text">The framework supports transparent design and review decisions for a proposed consent-first marketplace.</p></div>${ratingControl("FW1", "usefulness")}</article>
+    <article class="item-card"><div class="item-header"><span class="item-id">Overall</span><p class="item-text">The framework supports transparent design and review decisions for a proposed consent-first marketplace.</p></div>${ratingControl("FW1", "usefulness")}</article>
     ${renderOpenField("F1", "Most important revision", "Which single revision would most improve the framework? Enter None if you recommend no revision.")}
     ${renderOpenField("F2", "Any remaining concern", "State any important objection that the earlier ratings did not let you express. Enter None if you have no remaining concern.")}
     ${navigation()}`;
