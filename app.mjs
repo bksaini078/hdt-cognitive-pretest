@@ -141,7 +141,7 @@ function renderParticipantInformation() {
       </dl>
 
       <h2>Why you are being invited</h2>
-      <p><strong>You are being invited as a non-panel expert to test whether a draft questionnaire is understandable, navigable, and practical to complete.</strong></p>
+      <p><strong>You are invited as an independent expert. We want to check whether this draft questionnaire is easy to understand, easy to use, and practical to complete.</strong></p>
       <p>Your responses will be used to improve the questionnaire. They are not Delphi ratings, will not be included in Delphi consensus calculations, and cannot establish implementation, legal compliance, market demand, or commercial viability.</p>
       <p>You cannot later participate in the Delphi panel for this study.</p>
 
@@ -175,23 +175,23 @@ function renderParticipantInformation() {
 function renderEligibility() {
   const route = routeConfig();
   return `
-    ${heading(`Route ${state.route}`, "Marketplace eligibility", "Read each condition and give two ratings: whether it belongs in the marketplace checklist and whether its wording is clear.")}
+    ${heading(`Route ${state.route}`, "Marketplace eligibility", "Read each statement. Then answer two questions: Should it be included? Is it easy to understand?")}
     <section class="notice">
-      <p><strong>What you are reviewing:</strong> This platform has not launched. The conditions form a checklist for deciding whether a proposed service counts as a contributor-backed marketplace in this study. They do not classify existing providers.</p>
+      <p><strong>What you are reviewing:</strong> The platform is only a design. It is not running yet. These statements form a checklist. The checklist helps decide whether a service is the type of marketplace studied here.</p>
       <p><strong>What to do:</strong></p>
       <ol>
-        <li>Read each condition and its plain-language note.</li>
-        <li>For <strong>Relevance</strong>, rate whether the condition belongs in this checklist.</li>
-        <li>For <strong>Clarity</strong>, rate whether different readers could understand the condition consistently.</li>
-        <li>If you choose 1, 2, or Outside my expertise, briefly explain why in the box that appears.</li>
-        <li>After the ratings, use the open comment box to suggest a condition to add, remove, or clarify. Enter <strong>None</strong> if you have no suggestion.</li>
+        <li>Read each statement and the short note below it.</li>
+        <li>For <strong>Relevance</strong>, ask: “Should this rule be in the checklist?” Choose 1 for no and 5 for yes.</li>
+        <li>For <strong>Clarity</strong>, ask: “Is this rule easy to understand?” Choose 1 for very unclear and 5 for very clear.</li>
+        <li>If you choose 1, 2, or Outside my expertise, write a short reason in the box that appears.</li>
+        <li>At the end, tell us if a rule should be added, removed, or made clearer. Enter <strong>None</strong> if you have no suggestion.</li>
       </ol>
-      <p>Codes such as <strong>EL1</strong> are reference labels only. Parenthetical notes explain the wording but are not part of the formal condition.</p>
-      <p><strong>If the researcher asks you to think aloud, say what you believe the wording means and mention anything confusing as you read. There is no correct answer.</strong></p>
-      <p>Judge only the proposed content and wording. Do not judge current implementation, legal compliance, or commercial success.</p>
+      <p>Codes such as <strong>EL1</strong> are only labels. You do not need to explain the codes. Text in brackets helps explain a statement but is not part of the formal rule.</p>
+      <p><strong>If the researcher asks you to think aloud, say what the sentence means in your own words. Say what is confusing. There is no correct answer.</strong></p>
+      <p>Review only the idea and the words. Do not rate whether the platform works, follows the law, or makes money.</p>
     </section>
     ${route.eligibility.map((id) => renderEligibilityCard(id)).join("")}
-    ${renderOpenField("EL.open", "Review the eligibility checklist", "Should any condition be added, removed, or clarified? Briefly explain your suggestion, or enter None.")}
+    ${renderOpenField("EL.open", "Your comments on the checklist", "Should a rule be added, removed, or made clearer? Explain briefly, or enter None.")}
     ${navigation()}`;
 }
 
@@ -207,7 +207,7 @@ function renderRequirements() {
     ${definitionPanel(["relevance", "clarity", "implementability", "observability"])}
     <section class="notice"><p><strong>OE is a deliberate response:</strong> choose it when the property is outside your expertise. An unanswered item is recorded separately as missing.</p><p>If one element within a compound requirement is unclear, describe that element in the open comment box at the end of this section rather than marking the whole requirement OE.</p></section>
     ${route.requirements.map((id) => renderRequirementCard(id)).join("")}
-    ${renderOpenField("DR.open", "Comment on the assigned requirements", "Identify one control dependency, harmful implication, or wording change. Enter None if you have nothing to report.")}
+    ${renderOpenField("DR.open", "Your comments on the requirements", "Tell us about a missing link between rules, a possible harm, or wording that should change. Enter None if you have nothing to report.")}
     ${navigation()}`;
 }
 
@@ -246,7 +246,7 @@ function renderEconomics() {
     ${definitionPanel(["relevance", "usefulness", "plausibility"])}
     <section class="notice warning"><p>The model separates transaction contribution margin from platform operating result and reports capacity, continuity assumptions, concentration, acquisition payback, and runway.</p><p>Four of five original scenarios fail the combined threshold test. The one passing scenario shows approximately $431 monthly surplus and fails under every tested adverse-factor combination. These are assumption-driven sensitivity results, not forecasts, observed demand, or viability evidence.</p></section>
     ${routeConfig().economics.map((id) => renderEconomicCard(id)).join("")}
-    ${renderOpenField("EC.open", "Identify assumptions needing evidence", "Which three assumptions most require evidence before pricing, recruitment, or investment decisions can be made? For each, suggest a plausible evidence source or range where possible. Enter None if you have nothing to report.")}
+    ${renderOpenField("EC.open", "Assumptions that need evidence", "Which three assumptions most need real-world evidence before decisions about pricing, recruitment, or investment? If possible, say where the evidence could come from or give a reasonable range. Enter None if you have nothing to report.")}
     ${navigation()}`;
 }
 
