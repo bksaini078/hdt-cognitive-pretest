@@ -1,0 +1,50 @@
+name: Validate and deploy GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Validate JavaScript syntax
+        run: |
+          node --check app.mjs
+          node --check data.mjs
+
+      - name: Verify deployment boundary
+        run: |
+          test -f index.html
+          test -f styles.css
+          test "$(find . -maxdepth 1 -type f -name '*.json' | wc -l | tr -d ' ')" = "0"
+          grep -q 'delivery_mode: "public-github-pages"' app.mjs
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload static site
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4

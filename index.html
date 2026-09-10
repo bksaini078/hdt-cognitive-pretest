@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light" />
+    <title>Consent-First Marketplace Questionnaire Pretest</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <div class="brand" aria-label="Consent-First Marketplace Questionnaire">
+          <span class="brand-mark" aria-hidden="true"><span></span></span>
+          <span>
+            <strong>Consent-First Review</strong>
+            <small>Cognitive pretest</small>
+          </span>
+        </div>
+        <div class="topbar-meta">
+          <span class="status-pill">Hosted session</span>
+          <span id="session-label">Not started</span>
+        </div>
+      </header>
+
+      <div class="workspace">
+        <aside class="progress-panel" aria-label="Questionnaire progress">
+          <p class="eyebrow">Session progress</p>
+          <ol id="step-list" class="step-list"></ol>
+          <div class="privacy-note">
+            <span class="privacy-icon" aria-hidden="true">&#9670;</span>
+            <p><strong>No response submission</strong><br />Questionnaire responses stay in this browser until exported.</p>
+          </div>
+        </aside>
+
+        <main id="main-content" class="main-content" tabindex="-1"></main>
+      </div>
+
+      <footer class="app-footer">
+        <span id="version-label"></span>
+        <span>Do not enter names, employers, clients, or confidential project details.</span>
+      </footer>
+    </div>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+    <script type="module" src="./app.mjs"></script>
+  </body>
+</html>
