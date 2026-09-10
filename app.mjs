@@ -41,6 +41,13 @@ function routeConfig() {
   return state.route ? routes[state.route] : null;
 }
 
+function localDateValue(date = new Date()) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
 function buildSteps() {
   const route = routeConfig();
   steps = [
@@ -98,6 +105,11 @@ function renderSetup() {
         <label class="field"><span>Pseudonymous pretest ID</span><input id="pretest-id" type="text" autocomplete="off" maxlength="40" placeholder="PT-001" value="${escapeHtml(state.pretestId)}" /></label>
         <label class="field"><span>Verified route</span><select id="route-select"><option value="">Select route</option>${Object.entries(routes).map(([id, route]) => `<option value="${id}" ${state.route === id ? "selected" : ""}>${id}: ${escapeHtml(route.label)}</option>`).join("")}</select></label>
       </div>
+      <section class="definition-panel" aria-labelledby="route-guide-title">
+        <p><strong id="route-guide-title">Route guide</strong></p>
+        <p>Select the one route assigned by the researcher based on verified expertise.</p>
+        <div class="definition-grid">${Object.entries(routes).map(([id, route]) => `<div><strong>Route ${id}: ${escapeHtml(route.label)}</strong><span>${escapeHtml(route.scope)}</span></div>`).join("")}</div>
+      </section>
       <label class="check-row"><input id="identity-confirmed" type="checkbox" ${state.identityConfirmed ? "checked" : ""} /><span>I confirm that no participant name, employer, client, or other direct identifier will be entered in this app.</span></label>
     </section>
     <div class="section-actions"><span></span><button class="button primary" id="start-session">Open participant information</button></div>`;
@@ -146,7 +158,7 @@ function renderParticipantInformation() {
       <h2>Consent record</h2>
       <p>By affirming below, you confirm that you have read and understood this information, had an opportunity to ask questions, understand that this is questionnaire pretesting rather than Delphi participation, understand how the information will be handled and how to stop participating, and consent to participate.</p>
       <p>No recording is planned. Any later recording would require separate disclosure, approval, and consent.</p>
-      <label class="field"><span>Consent date</span><input id="consent-date" type="date" value="${escapeHtml(state.consentDate)}" /></label>
+      <label class="field"><span>Consent date</span><input id="consent-date" type="date" value="${escapeHtml(state.consentDate)}" readonly /></label>
       <label class="check-row"><input id="information-acknowledged" type="checkbox" ${state.informationAcknowledged ? "checked" : ""} ${configured ? "" : "disabled"} /><span>I have read and understood the participant information and had an opportunity to ask questions.</span></label>
       <label class="check-row"><input id="consent-confirmed" type="checkbox" ${state.consentConfirmed ? "checked" : ""} ${configured ? "" : "disabled"} /><span>I voluntarily consent to participate in this cognitive pretest.</span></label>
     </section>
@@ -301,7 +313,7 @@ function startSession() {
     showToast("Complete the pseudonymous ID, verified route, and privacy confirmation.");
     return;
   }
-  Object.assign(state, { pretestId, route, identityConfirmed });
+  Object.assign(state, { pretestId, route, identityConfirmed, consentDate: localDateValue() });
   buildSteps();
   state.currentStep = 1;
   render();
