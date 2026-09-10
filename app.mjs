@@ -141,7 +141,8 @@ function renderParticipantInformation() {
       </dl>
 
       <h2>Why you are being invited</h2>
-      <p>You are being invited as a non-panel expert to test whether a draft questionnaire is understandable, navigable, and practical to complete. Your responses will be used to improve the questionnaire. They are not Delphi ratings, will not be included in Delphi consensus calculations, and cannot establish implementation, legal compliance, market demand, or commercial viability.</p>
+      <p><strong>You are being invited as a non-panel expert to test whether a draft questionnaire is understandable, navigable, and practical to complete.</strong></p>
+      <p>Your responses will be used to improve the questionnaire. They are not Delphi ratings, will not be included in Delphi consensus calculations, and cannot establish implementation, legal compliance, market demand, or commercial viability.</p>
       <p>You cannot later participate in the Delphi panel for this study.</p>
 
       <h2>What participation involves</h2>
@@ -174,14 +175,23 @@ function renderParticipantInformation() {
 function renderEligibility() {
   const route = routeConfig();
   return `
-    ${heading(`Route ${state.route}`, "Marketplace eligibility", "Rate whether each assigned condition belongs in the boundary and can be interpreted consistently.")}
+    ${heading(`Route ${state.route}`, "Marketplace eligibility", "Read each condition and give two ratings: whether it belongs in the marketplace checklist and whether its wording is clear.")}
     <section class="notice">
-      <p>This is a proposed, unlaunched platform. Your ratings assess design content, not implementation, compliance, or commercial viability.</p>
-      <p>The conditions below define the narrower contributor-backed marketplace. They are not taxonomy categories. Parenthetical notes explain the wording and are not part of the formal condition.</p>
-      <p><strong>During this first section, the researcher may ask you to think aloud.</strong></p>
+      <p><strong>What you are reviewing:</strong> This platform has not launched. The conditions form a checklist for deciding whether a proposed service counts as a contributor-backed marketplace in this study. They do not classify existing providers.</p>
+      <p><strong>What to do:</strong></p>
+      <ol>
+        <li>Read each condition and its plain-language note.</li>
+        <li>For <strong>Relevance</strong>, rate whether the condition belongs in this checklist.</li>
+        <li>For <strong>Clarity</strong>, rate whether different readers could understand the condition consistently.</li>
+        <li>If you choose 1, 2, or Outside my expertise, briefly explain why in the box that appears.</li>
+        <li>After the ratings, use the open comment box to suggest a condition to add, remove, or clarify. Enter <strong>None</strong> if you have no suggestion.</li>
+      </ol>
+      <p>Codes such as <strong>EL1</strong> are reference labels only. Parenthetical notes explain the wording but are not part of the formal condition.</p>
+      <p><strong>If the researcher asks you to think aloud, say what you believe the wording means and mention anything confusing as you read. There is no correct answer.</strong></p>
+      <p>Judge only the proposed content and wording. Do not judge current implementation, legal compliance, or commercial success.</p>
     </section>
     ${route.eligibility.map((id) => renderEligibilityCard(id)).join("")}
-    ${renderOpenField("EL.open", "What condition is missing, unnecessary, or ambiguously bounded?")}
+    ${renderOpenField("EL.open", "Review the eligibility checklist", "Should any condition be added, removed, or clarified? Briefly explain your suggestion, or enter None.")}
     ${navigation()}`;
 }
 
@@ -195,9 +205,9 @@ function renderRequirements() {
   return `
     ${heading(`Route ${state.route}`, "Consent-first requirements", "Rate each assigned requirement as one design unit. Open the evidence reference when judging observability.")}
     ${definitionPanel(["relevance", "clarity", "implementability", "observability"])}
-    <section class="notice"><p><strong>OE is a deliberate response:</strong> choose it when the property is outside your expertise. An unanswered item is recorded separately as missing.</p><p>If one element within a compound requirement is unclear, describe that element in DR.open rather than marking the whole requirement OE.</p></section>
+    <section class="notice"><p><strong>OE is a deliberate response:</strong> choose it when the property is outside your expertise. An unanswered item is recorded separately as missing.</p><p>If one element within a compound requirement is unclear, describe that element in the open comment box at the end of this section rather than marking the whole requirement OE.</p></section>
     ${route.requirements.map((id) => renderRequirementCard(id)).join("")}
-    ${renderOpenField("DR.open", "Identify one control dependency, harmful implication, or wording change in your assigned requirements.")}
+    ${renderOpenField("DR.open", "Comment on the assigned requirements", "Identify one control dependency, harmful implication, or wording change. Enter None if you have nothing to report.")}
     ${navigation()}`;
 }
 
@@ -236,7 +246,7 @@ function renderEconomics() {
     ${definitionPanel(["relevance", "usefulness", "plausibility"])}
     <section class="notice warning"><p>The model separates transaction contribution margin from platform operating result and reports capacity, continuity assumptions, concentration, acquisition payback, and runway.</p><p>Four of five original scenarios fail the combined threshold test. The one passing scenario shows approximately $431 monthly surplus and fails under every tested adverse-factor combination. These are assumption-driven sensitivity results, not forecasts, observed demand, or viability evidence.</p></section>
     ${routeConfig().economics.map((id) => renderEconomicCard(id)).join("")}
-    ${renderOpenField("EC.open", "Which three assumptions most require empirical evidence before pricing, recruitment, or investment decisions can be made? For each, suggest a plausible evidence source or range where possible.")}
+    ${renderOpenField("EC.open", "Identify assumptions needing evidence", "Which three assumptions most require evidence before pricing, recruitment, or investment decisions can be made? For each, suggest a plausible evidence source or range where possible. Enter None if you have nothing to report.")}
     ${navigation()}`;
 }
 
@@ -250,8 +260,8 @@ function renderOverall() {
     ${heading("Final participant section", "Overall review", "Consider the framework as a whole, then identify the revision that matters most.")}
     ${definitionPanel(["usefulness"])}
     <article class="item-card"><div class="item-header"><span class="item-id">FW1</span><p class="item-text">The framework supports transparent design and review decisions for a proposed consent-first marketplace.</p></div>${ratingControl("FW1", "usefulness")}</article>
-    ${renderOpenField("F1", "Which single revision would most improve the framework?")}
-    ${renderOpenField("F2", "State any material objection that the assigned ratings did not let you express.")}
+    ${renderOpenField("F1", "Most important revision", "Which single revision would most improve the framework? Enter None if you recommend no revision.")}
+    ${renderOpenField("F2", "Any remaining concern", "State any important objection that the earlier ratings did not let you express. Enter None if you have no remaining concern.")}
     ${navigation()}`;
 }
 
@@ -262,7 +272,14 @@ function renderReview() {
   const domainWithoutReason = routeConfig().domains.filter((id) => ["1", "2"].includes(state.ratings[`${id}.completeness`]) && !(state.openResponses[`${id}.open`] ?? "").trim());
   const requiredOpen = ["EL.open", "DR.open", ...(state.route === "E" ? ["EC.open"] : []), "F1", "F2"];
   const missingOpen = requiredOpen.filter((id) => !(state.openResponses[id] ?? "").trim());
-  const issues = [...missing.map((item) => `${item.id} is unanswered`), ...lowWithoutRationale.map((item) => `${item.id} needs a brief reason`), ...domainWithoutReason.map((id) => `${id}.open needs the missing requirement`), ...missingOpen.map((id) => `${id} needs a response; enter None when there is nothing to report`)];
+  const openResponseLabels = {
+    "EL.open": "Eligibility checklist comment",
+    "DR.open": "Requirements comment",
+    "EC.open": "Economic assumptions comment",
+    F1: "Most important revision",
+    F2: "Remaining concern",
+  };
+  const issues = [...missing.map((item) => `${item.id} is unanswered`), ...lowWithoutRationale.map((item) => `${item.id} needs a brief reason`), ...domainWithoutReason.map((id) => `${id} needs the missing requirement`), ...missingOpen.map((id) => `${openResponseLabels[id]} needs a response; enter None when there is nothing to report`)];
   return `
     ${heading("Final check", "Review and export", "Review missing or incomplete responses, then save the pseudonymous response package locally.")}
     <section class="review-summary">
@@ -286,8 +303,8 @@ function ratingControl(id, property) {
   return `<fieldset class="rating-block" data-rating-id="${id}" data-property="${property}"><legend>${escapeHtml(property)}</legend><p class="rating-help">${escapeHtml(properties[property])}</p><div class="rating-options">${scale.map(({ value, label }) => `<label class="rating-option"><input type="radio" name="${id}" value="${value}" ${current === value ? "checked" : ""} /><span>${value}<small>${escapeHtml(label)}</small></span></label>`).join("")}</div><label class="field rationale-field" data-rationale-for="${id}" ${rationaleVisible ? "" : "hidden"}><span>Brief reason required for 1, 2, or OE</span><textarea data-rationale-id="${id}">${escapeHtml(state.rationales[id] ?? "")}</textarea></label></fieldset>`;
 }
 
-function renderOpenField(id, prompt) {
-  return `<label class="field item-card"><span>${escapeHtml(id)}: ${escapeHtml(prompt)}</span><textarea data-open-id="${id}">${escapeHtml(state.openResponses[id] ?? "")}</textarea></label>`;
+function renderOpenField(id, label, prompt) {
+  return `<label class="field item-card"><span>${escapeHtml(label)}</span><small class="rating-help">${escapeHtml(prompt)}</small><textarea data-open-id="${id}">${escapeHtml(state.openResponses[id] ?? "")}</textarea></label>`;
 }
 
 function navigation() {
