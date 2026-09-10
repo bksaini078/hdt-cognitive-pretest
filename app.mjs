@@ -289,7 +289,7 @@ function renderReview() {
       ${issues.length ? `<div class="notice warning"><p><strong>${issues.length} item${issues.length === 1 ? "" : "s"} need attention.</strong></p><ul class="review-list missing">${issues.map((issue) => `<li>${escapeHtml(issue)}</li>`).join("")}</ul></div>` : `<div class="notice"><p><strong>Response check complete.</strong> All expected ratings and required reasons are present.</p></div>`}
       <label class="check-row"><input id="missing-confirmed" type="checkbox" ${issues.length ? "" : "checked"} /><span>${issues.length ? "I have reviewed these items and intentionally leave any remaining responses incomplete." : "All required response checks passed."}</span></label>
       <div class="export-grid"><button class="button primary" id="export-json" ${issues.length ? "disabled" : ""}>Download response package</button><button class="button secondary" id="print-review">Print or save as PDF</button></div>
-      <p class="rating-help">After the download is verified, give the device back to the researcher. The researcher records comprehension observations and timing in the separate pretest log.</p>
+      <p class="rating-help">After the download is verified, keep the file and follow the researcher's instructions for submitting it. The researcher records comprehension observations and timing in the separate pretest log.</p>
     </section>
     <div class="section-actions"><button class="button secondary" data-nav="back">Back</button><button class="button danger" id="clear-session">Clear browser session</button></div>`;
 }
