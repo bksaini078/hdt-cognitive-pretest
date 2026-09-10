@@ -457,6 +457,51 @@ textarea {
   font-size: 0.82rem;
 }
 
+.glossary-term {
+  position: relative;
+  border-bottom: 1px dotted currentcolor;
+  outline: none;
+  cursor: help;
+}
+
+.glossary-term::after {
+  content: attr(data-definition);
+  position: fixed;
+  z-index: 50;
+  left: 50%;
+  bottom: 18px;
+  width: max-content;
+  max-width: min(360px, calc(100vw - 32px));
+  padding: 10px 12px;
+  border: 1px solid #394b50;
+  border-radius: 5px;
+  background: #17252a;
+  color: #fff;
+  box-shadow: 0 8px 24px rgb(23 37 42 / 24%);
+  font-family: var(--body);
+  font-size: 0.88rem;
+  font-weight: 400;
+  line-height: 1.4;
+  text-align: left;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, 8px);
+  transition: opacity 120ms ease, transform 120ms ease;
+}
+
+.glossary-term:hover::after,
+.glossary-term:focus::after,
+.glossary-term:focus-visible::after {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+.glossary-term:focus-visible {
+  border-radius: 2px;
+  outline: 3px solid rgb(21 94 239 / 35%);
+  outline-offset: 2px;
+}
+
 .rating-options {
   display: grid;
   grid-template-columns: repeat(6, minmax(58px, 1fr));

@@ -18,6 +18,17 @@ const sessionLabel = document.querySelector("#session-label");
 const versionLabel = document.querySelector("#version-label");
 const toast = document.querySelector("#toast");
 
+const glossaryAliases = new Map([
+  ["artifact", "Derived artifact"],
+  ["artifacts", "Derived artifact"],
+  ...glossary.flatMap(({ term }) => {
+    const normalized = term.toLowerCase();
+    return [[normalized, term], [`${normalized}s`, term]];
+  }),
+]);
+const glossaryPattern = new RegExp(`\\b(${[...glossaryAliases.keys()].sort((a, b) => b.length - a.length).map(escapeRegExp).join("|")})\\b`, "gi");
+const glossaryDefinitions = new Map(glossary.map(({ term, definition }) => [term, definition]));
+
 const state = {
   route: null,
   pretestId: "",
@@ -79,6 +90,7 @@ function render() {
     review: renderReview,
   };
   main.innerHTML = views[step.id]();
+  annotateGlossaryTerms(main);
   bindViewEvents();
   main.focus({ preventScroll: true });
   window.scrollTo({ top: 0, behavior: "smooth" });
@@ -96,7 +108,7 @@ function heading(kicker, title, description) {
 
 function renderSetup() {
   return `
-    ${heading("Researcher setup", "Prepare a bounded pretest session", "Assign the verified route and pseudonymous ID before handing the device to the participant.")}
+    ${heading("Researcher setup", "Prepare a bounded pretest session", "Assign the verified route and pseudonymous ID before the participant begins.")}
     <section class="setup-panel">
       <div class="notice warning">
         <p>The next screen presents the participant-information sheet and consent affirmation.</p>
@@ -110,11 +122,6 @@ function renderSetup() {
         <p><strong id="route-guide-title">Route guide</strong></p>
         <p>Select the one route assigned by the researcher based on verified expertise.</p>
         <div class="definition-grid">${Object.entries(routes).map(([id, route]) => `<div><strong>Route ${id}: ${escapeHtml(route.label)}</strong><span>${escapeHtml(route.scope)}</span></div>`).join("")}</div>
-      </section>
-      <section class="definition-panel" aria-labelledby="glossary-title">
-        <p><strong id="glossary-title">Plain-language glossary</strong></p>
-        <p>These explanations clarify recurring terms without changing the formal questionnaire statements.</p>
-        <div class="definition-grid">${glossary.map(({ term, definition }) => `<div><strong>${escapeHtml(term)}</strong><span>${escapeHtml(definition)}</span></div>`).join("")}</div>
       </section>
       <label class="check-row"><input id="identity-confirmed" type="checkbox" ${state.identityConfirmed ? "checked" : ""} /><span>I confirm that no participant name, employer, client, or other direct identifier will be entered in this app.</span></label>
     </section>
@@ -310,6 +317,41 @@ function renderOpenField(id, label, prompt) {
 
 function navigation() {
   return `<div class="section-actions"><button class="button secondary" data-nav="back">Back</button><button class="button primary" data-nav="next">Continue</button></div>`;
+}
+
+function annotateGlossaryTerms(root) {
+  const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+    acceptNode(node) {
+      if (!node.nodeValue.trim() || node.parentElement.closest("h1, h2, h3, button, input, textarea, select, option, a, summary, .glossary-term")) return NodeFilter.FILTER_REJECT;
+      glossaryPattern.lastIndex = 0;
+      return glossaryPattern.test(node.nodeValue) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT;
+    },
+  });
+  const nodes = [];
+  while (walker.nextNode()) nodes.push(walker.currentNode);
+  nodes.forEach((node) => {
+    const fragment = document.createDocumentFragment();
+    let previousIndex = 0;
+    for (const match of node.nodeValue.matchAll(glossaryPattern)) {
+      fragment.append(node.nodeValue.slice(previousIndex, match.index));
+      const canonicalTerm = glossaryAliases.get(match[0].toLowerCase());
+      const definition = glossaryDefinitions.get(canonicalTerm);
+      const term = document.createElement("span");
+      term.className = "glossary-term";
+      term.tabIndex = 0;
+      term.dataset.definition = definition;
+      term.setAttribute("aria-description", definition);
+      term.textContent = match[0];
+      fragment.append(term);
+      previousIndex = match.index + match[0].length;
+    }
+    fragment.append(node.nodeValue.slice(previousIndex));
+    node.replaceWith(fragment);
+  });
+}
+
+function escapeRegExp(value) {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
 function bindViewEvents() {
