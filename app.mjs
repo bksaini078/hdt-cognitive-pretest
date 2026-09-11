@@ -162,7 +162,7 @@ function renderParticipantInformation() {
       </ul>
 
       <h2>Voluntary participation</h2>
-      <p>Participation is voluntary. You may skip a question, choose <code>OE outside my expertise</code>, pause, or stop without giving a reason. Stopping will not affect any relationship with the researcher or institution.</p>
+      <p>Participation is voluntary. The app requires an answer before you continue. Choose <code>OE outside my expertise</code> when you cannot judge a rating and enter <code>None</code> in a required comment box when you have nothing to add. You may pause or stop without giving a reason. Stopping will not affect any relationship with the researcher or institution.</p>
 
       <h2>Information collected and handling</h2>
       <p>The pretest uses the pseudonymous ID <strong>${escapeHtml(state.pretestId)}</strong>. Do not enter your name, employer, client names, confidential project details, or sensitive personal information. The researcher records your verified competence route, questionnaire responses, timing, interruptions, comprehension observations, and revision decisions. Identity and contact information are stored separately from response and issue logs.</p>

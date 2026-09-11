@@ -9,6 +9,7 @@ The participant-information screen identifies the researcher, institution, and c
 ## Data behavior
 
 - Questionnaire responses remain in the browser until the participant or researcher downloads the JSON response package.
+- Every required answer must be completed before the participant continues. Use `OE` when a rating is outside the participant's expertise and `None` when a required comment has nothing to add.
 - The app has no response API, database, analytics, cookies, advertising, or third-party scripts or fonts.
 - GitHub Pages serves the application and may process access metadata, including IP addresses, under [GitHub's Privacy Statement](https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement).
 - Never commit response exports, signed consent records, recruitment records, or direct identifiers to this repository.
