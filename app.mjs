@@ -166,7 +166,7 @@ function renderParticipantInformation() {
 
       <h2>Information collected and handling</h2>
       <p>The pretest uses the pseudonymous ID <strong>${escapeHtml(state.pretestId)}</strong>. Do not enter your name, employer, client names, confidential project details, or sensitive personal information. The researcher records your verified competence route, questionnaire responses, timing, interruptions, comprehension observations, and revision decisions. Identity and contact information are stored separately from response and issue logs.</p>
-      <p>The app does not send questionnaire responses to a study server. GitHub Pages delivers the application files and may process access metadata under <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener noreferrer">GitHub's privacy statement</a>. At the end of the session, the researcher saves the exported response file to an access-controlled study location and clears the browser session.</p>
+      <p>The app does not send questionnaire responses to a study server. GitHub Pages delivers the application files and may process access metadata under <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener noreferrer">GitHub&apos;s privacy statement</a>. At the end of the session, the researcher saves the exported response file to an access-controlled study location and clears the browser session.</p>
       <p><strong>Intended reporting:</strong> Aggregate methodological description and non-identifying examples only.</p>
 
       <h2>Consent record</h2>
@@ -213,7 +213,7 @@ function renderRequirements() {
   return `
     ${heading(`Route ${state.route}`, "Consent-first requirements", "Read each proposed requirement and rate it in four ways.")}
     ${definitionPanel(["relevance", "clarity", "implementability", "observability"])}
-    <section class="notice"><p><strong>What to do:</strong> Read the requirement, then rate whether it should be included, is easy to understand, can be put into practice, and can be checked using evidence.</p><p>Open <strong>View evidence expected before release</strong> before you rate Observability. This shows the records or tests that could prove the requirement was followed.</p><p>Choose <strong>Outside my expertise</strong> only when you cannot judge that rating. If you choose 1, 2, or Outside my expertise, write a short reason in the box that appears.</p><p>Codes such as <strong>DR1</strong> are only labels.</p></section>
+    <section class="notice"><p><strong>What to do:</strong> Read the requirement, then rate whether it should be included, is easy to understand, can be put into practice, and can be checked using evidence.</p><p>Rate the proposed framework as it is presented now. Later implementation may identify additional requirements, but do not assume that unspecified future controls already exist.</p><p>Open <strong>View evidence expected before release</strong> before you rate Observability. This shows the records or tests that could prove the requirement was followed.</p><p>Choose <strong>Outside my expertise</strong> only when you cannot judge that rating. If you choose 1, 2, or Outside my expertise, write a short reason in the box that appears.</p><p>Codes such as <strong>DR1</strong> are only labels.</p></section>
     ${route.requirements.map((id) => renderRequirementCard(id)).join("")}
     ${renderOpenField("DR.open", "Your comments on the requirements", "Tell us about a missing link between rules, a possible harm, or wording that should change. Enter None if you have nothing to report.")}
     ${navigation()}`;
@@ -221,7 +221,10 @@ function renderRequirements() {
 
 function renderRequirementCard(id) {
   const requirement = requirements[id];
+  const guidance = requirement.guidance ? `<p class="item-note"><strong>Plain-language guide:</strong> ${escapeHtml(requirement.guidance)}</p>` : "";
+  const elements = requirement.elements ? `<ul class="domain-list guidance-list">${requirement.elements.map((element) => `<li>${escapeHtml(element)}</li>`).join("")}</ul>` : "";
   return `<article class="item-card"><div class="item-header"><span class="item-id">${id}</span><p class="item-text">${escapeHtml(requirement.text)}</p></div>
+    ${guidance}${elements}
     <details class="evidence-panel"><summary>View evidence expected before release</summary><p><strong>${escapeHtml(requirement.label)}:</strong> ${escapeHtml(requirement.evidence)}.</p></details>
     ${["relevance", "clarity", "implementability", "observability"].map((property) => ratingControl(`${id}.${property}`, property)).join("")}</article>`;
 }
@@ -231,7 +234,7 @@ function renderDomains() {
   return `
     ${heading(`Route ${state.route}`, "Are any requirements missing?", "Each domain groups related requirements. Decide whether an important requirement is missing from each group.")}
     ${definitionPanel(["completeness"])}
-    <section class="notice"><p><strong>What to do:</strong> Read the full list in each domain. Choose 1 if important requirements are missing and 5 if the group appears complete.</p><p>Rows marked <strong>Rated</strong> were rated by you earlier. Rows marked <strong>Context only</strong> are shown to help you understand the whole group; do not rate those rows separately.</p><p>Codes such as <strong>D1</strong> are only labels for groups of related requirements.</p></section>
+    <section class="notice"><p><strong>What to do:</strong> Read the full list in each domain. Judge whether an important requirement is missing from the group. You do not need to know how every requirement would be implemented. Choose 1 if important requirements are missing and 5 if the group appears complete. Choose <strong>Outside my expertise</strong> only when the domain itself falls outside your expertise.</p><p>Rows marked <strong>Rated</strong> were rated by you earlier. Rows marked <strong>Context only</strong> are shown to help you understand the whole group; do not rate those rows separately.</p><p>Codes such as <strong>D1</strong> are only labels for groups of related requirements.</p></section>
     ${route.domains.map((id) => renderDomainCard(id)).join("")}
     ${navigation()}`;
 }
