@@ -3,6 +3,7 @@ import {
   domains,
   economics,
   eligibility,
+  eligibilityParts,
   eligibilityNotes,
   glossary,
   participantInformation,
@@ -155,7 +156,6 @@ function renderParticipantInformation() {
       <h2>What participation involves</h2>
       <ul>
         <li>One supervised session lasting ${escapeHtml(routeConfig().duration)}.</li>
-        <li>Thinking aloud while reading the introductory text, one eligibility condition, and the first assigned requirement.</li>
         <li>Completing assigned ratings and short comments without coaching.</li>
         <li>Answering brief questions about wording, response properties, navigation, and burden.</li>
         <li>No audio or video recording unless separately disclosed and consented.</li>
@@ -195,7 +195,6 @@ function renderEligibility() {
         <li>At the end, tell us if a rule should be added, removed, or made clearer. Enter <strong>None</strong> if you have no suggestion.</li>
       </ol>
       <p>Codes such as <strong>EL1</strong> are only labels. You do not need to explain the codes. Text in brackets helps explain a statement but is not part of the formal rule.</p>
-      <p><strong>If the researcher asks you to think aloud, say what the sentence means in your own words. Say what is confusing. There is no correct answer.</strong></p>
       <p>Review only the idea and the words. Do not rate whether the platform works, follows the law, or makes money.</p>
     </section>
     ${route.eligibility.map((id) => renderEligibilityCard(id)).join("")}
@@ -205,7 +204,8 @@ function renderEligibility() {
 
 function renderEligibilityCard(id) {
   const note = eligibilityNotes[id] ? `<p class="item-note">${escapeHtml(eligibilityNotes[id])}</p>` : "";
-  return `<article class="item-card"><div class="item-header"><span class="item-id">${id}</span><p class="item-text">${escapeHtml(eligibility[id])}</p></div>${note}${ratingControl(`${id}.relevance`, "relevance")}${ratingControl(`${id}.clarity`, "clarity")}</article>`;
+  const parts = renderStatementParts(eligibilityParts[id]);
+  return `<article class="item-card"><div class="item-header"><span class="item-id">${id}</span><div class="statement-content"><p class="item-text">${escapeHtml(eligibility[id])}</p>${parts}</div></div>${note}${ratingControl(`${id}.relevance`, "relevance")}${ratingControl(`${id}.clarity`, "clarity")}</article>`;
 }
 
 function renderRequirements() {
@@ -222,11 +222,15 @@ function renderRequirements() {
 function renderRequirementCard(id) {
   const requirement = requirements[id];
   const guidance = requirement.guidance ? `<p class="item-note"><strong>Plain-language guide:</strong> ${escapeHtml(requirement.guidance)}</p>` : "";
-  const elements = requirement.elements ? `<ul class="domain-list guidance-list">${requirement.elements.map((element) => `<li>${escapeHtml(element)}</li>`).join("")}</ul>` : "";
-  return `<article class="item-card"><div class="item-header"><span class="item-id">${id}</span><p class="item-text">${escapeHtml(requirement.text)}</p></div>
-    ${guidance}${elements}
+  const parts = renderStatementParts(requirement.statementParts);
+  return `<article class="item-card"><div class="item-header"><span class="item-id">${id}</span><div class="statement-content"><p class="item-text">${escapeHtml(requirement.text)}</p>${parts}</div></div>
+    ${guidance}
     <details class="evidence-panel"><summary>View evidence expected before release</summary><p><strong>${escapeHtml(requirement.label)}:</strong> ${escapeHtml(requirement.evidence)}.</p></details>
     ${["relevance", "clarity", "implementability", "observability"].map((property) => ratingControl(`${id}.${property}`, property)).join("")}</article>`;
+}
+
+function renderStatementParts(parts) {
+  return parts?.length ? `<ul class="statement-list">${parts.map((part) => `<li>${escapeHtml(part)}</li>`).join("")}</ul>` : "";
 }
 
 function renderDomains() {

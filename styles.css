@@ -431,6 +431,20 @@ textarea {
   font-size: 1.03rem;
 }
 
+.statement-content {
+  min-width: 0;
+}
+
+.statement-list {
+  margin: 10px 0 0;
+  padding-left: 1.25rem;
+}
+
+.statement-list li {
+  margin: 6px 0;
+  line-height: 1.45;
+}
+
 .item-note {
   margin: 10px 0 0 62px;
   color: var(--muted);

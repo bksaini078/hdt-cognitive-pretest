@@ -2,7 +2,7 @@
 
 Static, route-personalized web interface for the cognitive pretest of the Consent-First Human Digital Twin Marketplace expert questionnaire.
 
-**Current package:** `pretest-web-v4-2026-09-13` (questionnaire draft v6.2)
+**Current package:** `pretest-web-v5-2026-09-13` (questionnaire draft v6.3)
 
 ## Current status
 
