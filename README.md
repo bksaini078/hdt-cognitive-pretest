@@ -2,6 +2,8 @@
 
 Static, route-personalized web interface for the cognitive pretest of the Consent-First Human Digital Twin Marketplace expert questionnaire.
 
+**Current package:** `pretest-web-v4-2026-09-13` (questionnaire draft v6.2)
+
 ## Current status
 
 The participant-information screen identifies the researcher, institution, and contact email before presenting the consent affirmation. Keep any separately required signed consent record outside this repository.
@@ -9,6 +11,7 @@ The participant-information screen identifies the researcher, institution, and c
 ## Data behavior
 
 - Questionnaire responses remain in the browser until the participant or researcher downloads the JSON response package.
+- Participants complete the questionnaire independently. Ratings of 1, 2, or OE require a written rationale; oral probes are not required.
 - Every required answer must be completed before the participant continues. Use `OE` when a rating is outside the participant's expertise and `None` when a required comment has nothing to add.
 - The app has no response API, database, analytics, cookies, advertising, or third-party scripts or fonts.
 - GitHub Pages serves the application and may process access metadata, including IP addresses, under [GitHub's Privacy Statement](https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement).

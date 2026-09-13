@@ -112,7 +112,7 @@ function renderSetup() {
     <section class="setup-panel">
       <div class="notice warning">
         <p>The next screen presents the participant-information sheet and consent affirmation.</p>
-        <p>This hosted app does not submit questionnaire responses, record audio or video, or intentionally collect direct identifiers. GitHub may process access metadata, including IP addresses, under its own privacy terms.</p>
+        <p>This app is local-only. It does not submit data, record audio or video, or collect direct identifiers.</p>
       </div>
       <div class="field-grid">
         <label class="field"><span>Pseudonymous pretest ID</span><input id="pretest-id" type="text" autocomplete="off" maxlength="40" placeholder="PT-001" value="${escapeHtml(state.pretestId)}" /></label>
@@ -165,8 +165,8 @@ function renderParticipantInformation() {
       <p>Participation is voluntary. The app requires an answer before you continue. Choose <code>OE outside my expertise</code> when you cannot judge a rating and enter <code>None</code> in a required comment box when you have nothing to add. You may pause or stop without giving a reason. Stopping will not affect any relationship with the researcher or institution.</p>
 
       <h2>Information collected and handling</h2>
-      <p>The pretest uses the pseudonymous ID <strong>${escapeHtml(state.pretestId)}</strong>. Do not enter your name, employer, client names, confidential project details, or sensitive personal information. The researcher records your verified competence route, questionnaire responses, timing, interruptions, comprehension observations, and revision decisions. Identity and contact information are stored separately from response and issue logs.</p>
-      <p>The app does not send questionnaire responses to a study server. GitHub Pages delivers the application files and may process access metadata under <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener noreferrer">GitHub&apos;s privacy statement</a>. At the end of the session, the researcher saves the exported response file to an access-controlled study location and clears the browser session.</p>
+      <p>The pretest uses the pseudonymous ID <strong>${escapeHtml(state.pretestId)}</strong>. Do not enter your name, employer, client names, confidential project details, or sensitive personal information. The researcher records your verified competence route, questionnaire responses, written rationales, timing, interruptions, and revision decisions. Identity and contact information are stored separately from response and issue logs.</p>
+      <p>The local web app sends no data to a server. At the end of the session, the researcher saves the exported response file to an access-controlled study location and clears the browser session.</p>
       <p><strong>Intended reporting:</strong> Aggregate methodological description and non-identifying examples only.</p>
 
       <h2>Consent record</h2>
@@ -299,7 +299,7 @@ function renderReview() {
       ${issues.length ? `<div class="notice warning"><p><strong>${issues.length} item${issues.length === 1 ? "" : "s"} need attention.</strong></p><ul class="review-list missing">${issues.map((issue) => `<li>${escapeHtml(issue)}</li>`).join("")}</ul></div>` : `<div class="notice"><p><strong>Response check complete.</strong> All expected ratings and required reasons are present.</p></div>`}
       <label class="check-row"><input id="missing-confirmed" type="checkbox" ${issues.length ? "" : "checked"} /><span>${issues.length ? "I have reviewed these items and intentionally leave any remaining responses incomplete." : "All required response checks passed."}</span></label>
       <div class="export-grid"><button class="button primary" id="export-json" ${issues.length ? "disabled" : ""}>Download response package</button><button class="button secondary" id="print-review">Print or save as PDF</button></div>
-      <p class="rating-help">After the download is verified, keep the file and follow the researcher's instructions for submitting it. The researcher records comprehension observations and timing in the separate pretest log.</p>
+      <p class="rating-help">After the download is verified, keep the file and follow the researcher's instructions for submitting it. The researcher records timing and revision decisions in the separate pretest log.</p>
     </section>
     <div class="section-actions"><button class="button secondary" data-nav="back">Back</button><button class="button danger" id="clear-session">Clear browser session</button></div>`;
 }
